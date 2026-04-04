@@ -1,0 +1,54 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{fontspec} 
+\usepackage{xeCJK}    
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{booktabs}
+
+% 優化中文字體設定，消除斜體與等寬字體警告
+\setCJKmainfont[AutoFakeBold=true, AutoFakeSlant=true]{Microsoft JhengHei} 
+\setCJKmonofont{Microsoft JhengHei}
+
+\begin{document}
+
+\title{Assignment 2: Analysis of Stack Data Structure Through the Film "Inception"}
+
+\author{\IEEEauthorblockN{林柏翰}
+\IEEEauthorblockA{\textit{1113405021} \\
+\textit{國立澎湖科技大學}\\
+}
+}
+
+\maketitle
+
+\begin{abstract}
+本報告旨在探討電影《全面啟動》（Inception）中的夢境架構與電腦科學中「堆疊」（Stack）資料結構的關聯性 [cite: 26, 36]。透過分析主角群進入與離開夢境的機制，我們將驗證其完全符合「後進先出」（LIFO）的邏輯原則 [cite: 33, 34]，並藉此深化對遞迴調用、系統狀態保存以及記憶體溢位等底層運作機制的理解。本報告將從演算法視角，全面解析電影敘事背後的資訊工程邏輯。
+\end{abstract}
+
+\begin{IEEEkeywords}
+Stack, LIFO, Inception, Recursion, Push and Pop, Memory Management, Data Structures.
+\end{IEEEkeywords}
+
+\section{Introduction}
+在演算法與資料結構的學習歷程中，我們通常面對的是抽象的記憶體位址、指標與邏輯運算。然而，由克里斯多福·諾蘭執導的電影《全面啟動》卻以極具視覺震撼力與高度邏輯嚴密性的敘事手法，將電腦科學中極為核心的「堆疊」（Stack）資料結構具象化 [cite: 32]。在電影中，主角 Cobb 與其團隊為了執行植入思想（Inception）的艱鉅任務，必須潛入目標大腦中極深層的夢境。他們穿梭於不同夢境層次的嚴格規則，與作業系統中管理函數呼叫的「呼叫堆疊」（Call Stack）機制如出一轍。堆疊作為一種線性資料結構，其最重要的運作規則是「後進先出」（Last In, First Out, 簡稱 LIFO）[cite: 33]。本報告將深入探討電影中的多層次夢境架構，並將其與 Stack 的核心特徵進行全面性的比對與深度反思。
+
+\section{深入夢境的 Push 操作與系統狀態保存}
+在資料結構的嚴格定義中，Stack 是一種具有特定操作限制的線性資料結構，我們只能在其頂部（Top）進行推入（Push）或彈出（Pop）的操作 [cite: 37, 39]。在《全面啟動》中，團隊成員透過藥物與儀器共享夢境，從現實世界進入第一層夢境（Yusuf 的雨中城市追逐），再從第一層夢境進入第二層（Arthur 的飯店走廊），接著進入第三層（Eames 的雪山堡壘）[cite: 30]。每一次進入更深層的夢境，就如同在程式執行過程中發動了一次遞迴（Recursion）呼叫，或是將一個新的函數狀態 Push 進入 Call Stack [cite: 38]。
+
+在作業系統中，當一個函數被呼叫時，系統必須保留當下函數的執行狀態（包含區域變數、返回位址等），將其壓入堆疊後，才能去執行下一個函數。這與電影的設定完美契合：作夢者在上一層夢境中的身體必須保持絕對的穩定（通常處於沉睡或被保護的狀態），這個「沉睡的身體」就等同於被暫存於記憶體中的「區域變數」與「執行狀態」。唯有上一層的記憶體狀態被妥善保存且未遭破壞，下一層的夢境（新函數）才能順利展開並取得運算控制權。這種層層疊加的設計，完美詮釋了軟體工程中模組化與狀態隔離的精髓。
+
+\section{夢境甦醒與 LIFO 原則的絕對體現}
+如果說進入夢境是系統的 Push 操作 [cite: 37]，那麼從夢境中醒來的過程，則是對 Stack 最經典的 LIFO（最後進去的，最先出來）原則的完美演繹 [cite: 34, 39]。電影中一再強調，要安全地回到現實，團隊絕對不能直接從第三層夢境跨越回現實世界。他們必須透過被稱為「Kick」（穿越）的同步機制，從最深層的夢境開始，一層一層地「退回來」 [cite: 31]。
+
+這種必須從最頂端結構開始拆解的邏輯，正是演算法中 \texttt{pop()} 函數的運作方式 [cite: 40]。最後進入的第三層夢境（最後 Push 的元素），必須是第一個被結束並彈出的層級（最早 Pop 出來）。具體流程如下：首先是第三層的雪山堡壘爆炸（觸發 \texttt{pop()}），讓意識回到第二層；接著是第二層飯店電梯墜落（再次 \texttt{pop()}），意識回到第一層的箱型車；最後箱型車落水（最後一次 \texttt{pop()}），意識才能安全回到現實航班上。每一次的 Kick，就如同遞迴函數達到了「終止條件」（Base Case），觸發了 \texttt{return} 指令，將控制權精準地交還給堆疊中的上一個元素。這種嚴格的後進先出順序，確保了資料鏈路的完整性，防止了程式或人類意識的崩潰。
+
+\section{迷失領域（Limbo）與 Stack Overflow 的系統性災難}
+在程式設計與系統開發中，如果遞迴函數沒有設定正確的終止條件，或者短時間內產生了過深的呼叫導致 Stack 空間被徹底耗盡，就會引發致命的 Stack Overflow（堆疊溢位），導致程式異常終止甚至系統崩潰。在電影的設定裡，因為使用了強效鎮靜劑，如果在深層夢境中意外死亡，意識將無法正常順著 Kick 的順序 \texttt{pop()} 回上層，而是會直接掉入無限深淵的「混沌領域」（Limbo）。
+
+Limbo 可以被具象化地視為程式崩潰後進入的無效記憶體區域（Segmentation Fault），或是一個失去了所有 Pointer 指引、無法跳出的無窮迴圈（Infinite Loop）。在那裡，時間的概念被無限拉長，猶如 CPU 被死結（Deadlock）卡住，無意義地消耗極大的運算資源卻無法產出有效結果。Cobb 的妻子 Mal 就是因為在 Limbo 中待了太久，失去了對現實（Base Address）的指標，導致她的邏輯判斷完全錯亂。這段劇情深刻且警世地提醒了我們，在設計遞迴演算法與堆疊操作時，對於邊界條件（Boundary Conditions）的測試與例外處理（Exception Handling）的掌控是何等攸關生死。
+
+\section{Conclusion}
+透過對《全面啟動》這部電影的深度剖析，原本在教科書上顯得抽象且枯燥的 Stack 資料結構，獲得了充滿張力且具體的靈魂 [cite: 36]。電影中對夢境層次的嚴密控管、Push 與 Pop 的精準對位，生動地詮釋了作業系統與演算法課程的核心價值。這部作品讓我體認到，無論是人類大腦處理複雜邏輯的潛意識，還是電腦底層的記憶體管理架構，皆遵循著一套極度優雅且嚴謹的數學與工程法則。這次的跨領域觀影與分析經驗，不僅大幅增進了學習資料結構的趣味性，更使我在未來實作堆疊或遞迴演算法時，腦海中不再只有單純的程式碼，而是具備了更宏觀、更具立體感的系統架構防禦思維。
+
+\end{document}
