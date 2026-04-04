@@ -1,5 +1,3 @@
-package asi0324;
-
 // 節點結構定義
 class Node {
     int data;
