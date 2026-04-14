@@ -36,4 +36,4 @@ public class Assignment2_Tree {
 
         System.out.println("成功建立二元樹結構！(Root is " + tree.root.key + ")");
     }
-}
+}     
