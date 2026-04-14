@@ -1,3 +1,17 @@
 {
-    "java.debug.settings.onBuildFailureProceed": true
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.project.sourcePaths": [
+        "asi0304-1",
+        "asi0304-2",
+        "asi0304-3",
+        "asi0310-1",
+        "asi0310-2",
+        "asi0317-1",
+        "asi0317-2",
+        "asi0317-3",
+        "asi0317-4",
+        "asi0317-5",
+        "asi0324-1",
+        "asi0408_1"
+    ]
 }
